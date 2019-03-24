@@ -1,0 +1,93 @@
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>查找分享</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/ico.png' %}" />
+    <meta name="keywords" content="nth-tabs">
+    <meta name="description" content="nth-tabs">
+    <link href="{% static 'css/bootstrap.3.3.5.min.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
+    <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+    <script src="{% static 'js/bootstrap.3.3.5.min.js' %}"></script>
+    <link href="https://cdn.bootcss.com/jquery.scrollbar/0.2.11/jquery.scrollbar.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery.scrollbar/0.2.11/jquery.scrollbar.min.js"></script>
+	<link href="{% static 'css/nth.tabs.css' %}" rel="stylesheet">
+    <script src="{% static 'js/nth.tabs.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'my-css/region-article.css' %}" />
+    <script src="{% static 'my-js/region-article.js' %}"></script>
+</head>
+<body>
+	<!--固定导航栏-->
+	<div id="nav">
+		<img src="{% static 'images/logo.png' %}" />
+		<div class="nav-link">
+			<a href="{% url 'home' %}">主页</a>
+			<a href="{% url 'home' %}">返回</a>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+	<!--这里加一个搜索框-->
+		<div class="row">
+			<div class="col">
+				<div id="head">
+					<h1 id="title">寻找你最爱的美食吧</h1>
+					<p>这里可以找到所有用户的分享内容</p>
+					<div id="search">
+						<img src="{% static 'images/search1.png' %}" alt="搜索图标"/>
+						<input type="text" placeholder="输入查询内容..."/>
+						<button>美食走起</button>
+					</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col">
+			<!--水平选项卡放置位置-->
+			<div class="nth-tabs" id="editor-tabs"></div>
+		</div>
+	</div>
+
+	<!--填充内容由此开始-->
+	<div id="display-region">
+		<div class="module">
+            <div class="city">{{ blog.city }}</div>
+            <div class="article-group">
+                {% for blog in page_of_blogs.object_list %}
+					<div class="article">
+						<div class="img-box">
+							<img src="{{ MEDIA_URL }}{{ blog.cover }}" alt="文章封面" />
+						</div>
+						<div class="content-box">
+							<div class="title"><a href="{% url 'blog_detail' blog.id %}">{{ blog.title }}</a></div>
+							<img src="{% static 'images/detail.png' %}" alt="详细信息" />
+							<div class="detail-box">
+								<h2>{{ blog.title }}</h2>
+								<div>{{ blog.index }}</div>
+							</div>
+							<div class="clear"></div>
+							<hr />
+							<div class="content-left"><img src="{{ MEDIA_URL }}{{ blog.author.userprofile.avatar }}" alt="作者头像" /><a href="www.baid.com">{{ blog.author }}</a>|<span>{{ blog.created_time|date:"Y年m月d日 H:n:s" }}</span></div>
+							<div class="clear"></div>
+							<div class="content-right">
+								<span>{{ blog.city }}</span>
+								<img src="{% static 'images/chat.png' %}" alt="阅读量图标" />
+								<span>{{ blog.get_read_num }}</span>
+								<img src="{% static 'images/agree.png' %}" alt="点赞图标" />
+								<span>200</span>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="clear"></div>
+			        </div>
+                {% endfor %}
+            </div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    编辑博客
+{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <form action = "" method = "post">
+            <p>
+                <span>标题</span>
+                <input type = "text" name = "title" placeholder="不超过60个字">
+            </p>
+            <p>
+                <span>类型</span>
+                <select id = "blog_types">
+                    {% for blog_type in blog_types %}
+                        <option value = "{{ blog_type.id }}">{{ blog_type.type_name }}</option>
+                    {% endfor %}
+                </select>
+            </p>
+            <p>
+                <span>内容</span>
+                <textarea style="display:none;" id="id_body"></textarea>
+                <script type="text/javascript" src='{% static "editor/editormd.min.js" %}'></script>
+                <script type="text/javascript">
+                    $(function() {
+                        var editor = editormd("editormd", {
+                            width : "100%",
+                            height : 640,
+                            syncScrolling : "single",
+                            path : "{% static 'editor/lib/' %}"
+                        });
+                    });W
+                </script>
+
+            </p>
+        </form>
+    {% else %}
+        <p>请登录后再发表文章。<a href = "{% url 'login' %}">点我登录</a></p>
+    {% endif %}
+{% endblock %}

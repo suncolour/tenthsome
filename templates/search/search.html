@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load highlight %}
+
+{% block title %}
+    搜索结果
+{% endblock %}
+
+{% block content %}
+    <p>关键词为“{{ query }}”</p>
+    <p>共{{ paginator.count }}篇文章</p>
+    {% if query %}
+        <h3>搜索结果如下：</h3>
+        {% for blog in page.object_list %}
+            <hr>
+            <a href = "{% url 'blog_detail' blog.object.id %}"><h3>{% highlight blog.object.title with query %}</h3></a>
+            <p>作者：{% highlight blog.object.author with query %}</p>
+            <p>文章类型：<a href = "{% url 'classify_blogs' blog.object.blog_type.id %}">{{ blog.object.blog_type }}</a></p>
+            <p>发表时间：{{ blog.object.created_time|date:"Y年m月d日 H:n:s" }}</p>
+            <p>内容概要：{% highlight blog.object.content with query %}</p>
+        {% endfor %}
+    {% else %}
+        <p>-- 暂无博客，敬请期待 --</p>
+    {% endif %}
+
+    {# 显示页码 #}
+    {% for page_num in page.paginator.page_range %}
+        {% if page_num == page.number %}
+            <span>{{ page_num }}</span>
+        {% else %}
+            <span><a href = "?page={{ page_num }}">{{ page_num }}</a></span>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

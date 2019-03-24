@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{# 页面标题 #}
+{% block title %}
+    博客目录
+{% endblock %}
+
+{# 页面内容 #}
+{% block content %}
+    {# 显示博客列表 #}
+    <p>共{{ page_of_blogs.paginator.count }}篇文章</p>
+    {% for blog in page_of_blogs.object_list %}
+        <hr>
+        <a href = "{% url 'blog_detail' blog.id %}"><h3>{{ blog.title }}</h3></a>
+        <p>头像：<img src ="{{ MEDIA_URL }}{{ blog.author.userprofile.avatar }}" /></p>
+        <p>封面：<img src ="{{ MEDIA_URL }}{{ blog.cover }}" /></p>
+        <p>作者：{{ blog.author }}</p>
+        <p>文章类型：<a href = "{% url 'classify_blogs' blog.blog_type.id %}">{{ blog.blog_type }}</a></p>
+        <p>发表时间：{{ blog.created_time|date:"Y年m月d日 H:n:s" }}</p>
+        <p>内容概要：{{ blog.content|truncatechars:60 }}</p>
+    {% empty %}
+        <p>-- 暂无博客，敬请期待 --</p>
+    {% endfor %}
+
+    {# 显示页码 #}
+    {% for page_num in page_of_blogs.paginator.page_range %}
+        {% if page_num == page_of_blogs.number %}
+            <span>{{ page_num }}</span>
+        {% else %}
+            <span><a href = "?page={{ page_num }}">{{ page_num }}</a></span>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

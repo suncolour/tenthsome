@@ -1,0 +1,78 @@
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf8" />
+        <title>文章浏览</title>
+        <link type="image/x-icon" rel="icon" href="{% static 'images/ico.png' %}" />
+        <link rel="stylesheet" href="https://at.alicdn.com/t/font_234130_nem7eskcrkpdgqfr.css">
+        <link rel="stylesheet" href="{% static 'my-css/canlender.css' %}" />
+        <link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+        <link type="text/css" rel="stylesheet" href="{% static 'my-css/article.css' %}" />
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/popper.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/schedule.js' %}"></script>
+        <script src="{% static 'my-js/article.js' %}"></script>
+    </head>
+    <body>
+        <!--固定导航栏-->
+        <nav class="navbar navbar-expand bg-light navbar-light fixed-top">
+            <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt="logo" /></a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">主页</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">返回</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-9">
+                    <form method="post" enctype="multipart/form-data">
+                        <input type="file" name="image">
+                        <input type="submit" value="上传">
+                    </form>
+                    <!--@改@ 下面这个填入该文章在数据库中的编号，因为涉及点赞等操作，所以需要将操作的那篇文章和操作的人告诉服务器-->
+                    <div id="order">{{ blog.id }}</div>
+                    <!--@改@ 下面三项（title,introduction,content-word）是文章的内容，将数据库取得的内容直接填入对应位置-->
+                    <div class="title">{{ blog.title }}</div>
+                    <div class="introduction">{{ blog.index }}</div>
+                    <div class="content">
+                        <div class="content-word">{{ blog.content }}</div>
+                        <hr />
+                        <div class="agree">
+                            <span>阅读量</span>
+                            <span>{{ blog.get_read_num }}</span>
+                            <!--@改@ 下面只需要更改class属性，如果当前正在浏览的用户已经点赞了，那么class="agreed"，否则class="notAgree"-->
+                            <img src="{% static 'images/like1.png' %}" class="notAgree" alt="点赞图标" />
+                            <!--@改@ 下面填入该文章的累计点赞数量-->
+                            <span>1000</span>
+                        </div>
+                    </div>
+                    <!--@改@ 现在没有这个模块，先不用管-->
+                    <div class="comment"></div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="article-info">
+                        <div class="author">
+                            <!--@改@ 下面是作者的头像，更改src值指向对应的脚本-->
+                            <img src="{{ MEDIA_URL }}{{ blog.author.userprofile.avatar }}" alt="用户头像" />
+                            <!--@改@ 下面是作者的昵称，更改内容为指定值-->
+                            <a href="{% url 'home' %}" target="_blank">{{ blog.author }}</a>
+                        </div>
+                        <hr />
+                        <div class="info">
+                            <!--@改@ 下面是发表时间和地点，分别更改两个span标签中的内容，格式最好跟示例一致-->
+                            <span>{{ blog.created_time|date:"Y年m月d日 H:n:s" }}</span>
+                            于 <span>{{ blog.city }}</span> 发表
+                        </div>
+                    </div>
+                    <div id='schedule-box' class="boxshaw">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,84 @@
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>修改信息</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'images/ico.png' %}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
+        <link rel="stylesheet" href="{% static 'my-css/user-information.css' %}" />
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/popper.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'my-js/user-information.js' %}"></script>
+    </head>
+
+    <body>
+        <!--固定导航栏-->
+        <nav class="navbar navbar-expand bg-light navbar-light fixed-top">
+            <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt="logo" /></a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">主页</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">返回</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="container-fluid">
+            <form enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col">
+                        <div class="card" id="img-card">
+                            <div class="card-header">修改头像</div>
+                            <div class="card-body">
+                                <img src="{{ MEDIA_URL }}{{ user.userprofile.avatar }}" alt="您的头像居然无法显示了！" />
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary" type="button">选择图片</button>
+                                <input type="file" name="image"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card mx-auto" id="login-card">
+                            <div class="card-header">修改个人信息</div>
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <div id="register">
+                                        <div>
+                                            <label for="username" class="m-auto"><span class="badge badge-light">新用户名</span></label>
+                                            <input type="text" class="form-control" id="username" placeholder="{{ user.username }}">
+                                        </div>
+                                        <div>
+                                            <label for="pwd1" class="m-auto"><span class="badge badge-secondary">原始密码</span></label>
+                                            <input type="password" class="form-control" id="pwd1" placeholder="请输入原始密码">
+                                        </div>
+                                        <div>
+                                            <label for="pwd2" class="m-auto"><span class="badge badge-light">新密码</span></label>
+                                            <input type="password" class="form-control" id="pwd2" placeholder="请输入新密码">
+                                        </div>
+                                        <div>
+                                            <label for="pwd3" class="m-auto"><span class="badge badge-light">确认密码</span><span id="pwd-advice"></span></label>
+                                            <input type="password" class="form-control" id="pwd3" placeholder="再次输入新密码">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-block">确认</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- <ul class="breadcrumb fixed-bottom mx-auto" style="margin:0;width:520px" id="nav-bottom">
+            <li class="breadcrumb-item"><a href="https://www.w3cschool.cn/bootstrap4/bootstrap4-ejf62qfy.html#">关于BINGO</a></li>
+            <li class="breadcrumb-item"><a href="https://www.w3cschool.cn/bootstrap4/bootstrap4-ejf62qfy.html#">安全条款</a></li>
+            <li class="breadcrumb-item"><a href="https://www.w3cschool.cn/bootstrap4/bootstrap4-ejf62qfy.html#">联系我们</a></li>
+            <li class="breadcrumb-item active">@2019-2019 BINGO版权所有</li>
+        </ul> -->
+    </body>
+</html>
